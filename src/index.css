@@ -1,0 +1,839 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+:root {
+  --bg: #060609;
+  --bg-2: #0c0c12;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-2: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-2: rgba(255, 255, 255, 0.13);
+  --text-1: #f0f0f6;
+  --text-2: #9b9bad;
+  --text-2-strong: #bcbccb;
+  --text-3: #858596;
+  --accent: #7c3aed;
+  --accent-2: #4f46e5;
+  --accent-dim: rgba(124, 58, 237, 0.12);
+  --accent-glow: rgba(124, 58, 237, 0.25);
+  --mono: 'JetBrains Mono', monospace;
+
+  /* Motion system — one easing + duration language site-wide */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 200ms;
+  --dur-reveal: 720ms;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-1);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+  /* clip (not hidden) avoids establishing a scroll container, which would
+     otherwise break the pinned/sticky pipeline section's viewport anchoring */
+  overflow-x: clip;
+}
+
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
+
+/* Hide scrollbar while keeping scroll functionality */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-2);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.4);
+}
+
+/* Selection */
+::selection {
+  background: rgba(124, 58, 237, 0.3);
+  color: #f0f0f6;
+}
+
+/* Focus visible */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 20000;
+  transform: translateY(-160%);
+  border: 1px solid rgba(167, 139, 250, 0.5);
+  border-radius: 10px;
+  background: #11101a;
+  color: var(--text-1);
+  padding: 10px 14px;
+  font: 600 13px/1.2 'Inter', sans-serif;
+  text-decoration: none;
+  transition: transform var(--dur-micro) var(--ease-out);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ─── Typography ─────────────────────────────────── */
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ─── Animations ─────────────────────────────────── */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes data-flow {
+  0% {
+    stroke-dashoffset: 200;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes particle-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(var(--dx, 20px), var(--dy, -30px)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* ─── DT Digital Core (hero sculpture) ───────────── */
+@keyframes dt-breathe {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.02);
+    opacity: 1;
+  }
+}
+
+@keyframes dt-reflect {
+  0% {
+    transform: translateX(-130%) rotate(18deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.45;
+  }
+  75% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translateX(130%) rotate(18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes dt-fade-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes dt-mark-reveal {
+  0% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate(-50%, -50%) translateY(4px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, -50%) translateY(0);
+  }
+}
+
+@keyframes dt-mark-sweep {
+  0% {
+    transform: translateX(-120%) skewX(-14deg);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(220%) skewX(-14deg);
+    opacity: 0;
+  }
+}
+
+/* ─── Beyond the Interface: 3D pipeline scene ────── */
+@keyframes bi-scene-idle {
+  0%,
+  100% {
+    transform: rotateX(0.6deg) rotateY(-2deg);
+  }
+  50% {
+    transform: rotateX(-0.6deg) rotateY(2deg);
+  }
+}
+
+@keyframes bi-node-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, -70px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes bi-side-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--bi-from, 0)) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes bi-spine-draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes bi-shimmer {
+  0% {
+    transform: translateY(-120%) rotate(8deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(220%) rotate(8deg);
+    opacity: 0;
+  }
+}
+
+@keyframes bi-wave {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.4);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bi-scene {
+    animation: none !important;
+  }
+}
+
+/* ─── Section reveal utility ─────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal.reveal-scale {
+  transform: translateY(18px) scale(0.965);
+}
+
+.reveal.reveal-scale.visible {
+  transform: translateY(0) scale(1);
+}
+
+/* Word-level heading choreography — transform only, one shared motion language. */
+.word-reveal-mask {
+  display: inline-flex;
+  overflow: hidden;
+  margin-right: 0.22em;
+  padding-bottom: 0.06em;
+  vertical-align: bottom;
+}
+
+.word-reveal-token {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform var(--dur-reveal) var(--ease-out);
+  will-change: transform;
+}
+
+.word-reveal-heading.visible .word-reveal-token {
+  transform: translateY(0);
+}
+
+/* Staggered children — set --i on each child (0,1,2…) */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+}
+.stagger.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* ─── Hero kinetic typography ─────────────────────── */
+.hero-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+.hero-line > span {
+  display: block;
+  transform: translateY(112%);
+  animation: hero-mask-in 1s var(--ease-out) forwards;
+}
+@keyframes hero-mask-in {
+  to {
+    transform: translateY(0);
+  }
+}
+.hero-name {
+  transition: transform 0.5s var(--ease-out);
+  will-change: transform;
+}
+.hero-shimmer {
+  position: relative;
+}
+.hero-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.55) 48%,
+    transparent 72%
+  );
+  mix-blend-mode: overlay;
+  transform: translateX(-120%);
+  animation: hero-sweep 4.5s var(--ease-in-out) 1.6s infinite;
+  pointer-events: none;
+}
+@keyframes hero-sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  22%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.reveal-delay-1 {
+  transition-delay: 0.1s;
+}
+.reveal-delay-2 {
+  transition-delay: 0.2s;
+}
+.reveal-delay-3 {
+  transition-delay: 0.3s;
+}
+.reveal-delay-4 {
+  transition-delay: 0.45s;
+}
+.reveal-delay-5 {
+  transition-delay: 0.6s;
+}
+
+/* ─── Subtle background grid ─────────────────────── */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.024) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ─── Noise texture overlay ──────────────────────── */
+.noise::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ─── Gradient text utility ──────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 50%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-subtle {
+  background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glass surface ──────────────────────────────── */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-2);
+}
+
+/* ─── Tag / pill ─────────────────────────────────── */
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 999px;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: #a78bfa;
+  letter-spacing: 0.03em;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.tech-tag:hover {
+  background: rgba(124, 58, 237, 0.2);
+  border-color: rgba(124, 58, 237, 0.35);
+}
+
+/* Contact fields keep the existing surface while labels float on focus/value. */
+.contact-field {
+  position: relative;
+}
+
+.contact-floating-label {
+  position: absolute;
+  top: 15px;
+  left: 16px;
+  z-index: 1;
+  transform-origin: left top;
+  color: var(--text-3);
+  font: 500 11px/1 var(--mono);
+  letter-spacing: 0.09em;
+  pointer-events: none;
+  transition:
+    transform var(--dur-micro) var(--ease-out),
+    color var(--dur-micro);
+}
+
+.contact-field:focus-within .contact-floating-label,
+.contact-field[data-filled='true'] .contact-floating-label {
+  transform: translateY(-8px) scale(0.78);
+  color: #a78bfa;
+}
+
+.contact-control {
+  padding-top: 1.35rem !important;
+  padding-bottom: 0.55rem !important;
+}
+
+/* Brief, skippable first-view identity reveal. */
+.intro-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 30000;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.14), transparent 36%),
+    var(--bg);
+  animation: intro-exit 1.45s var(--ease-out) both;
+}
+
+.intro-loader__mark {
+  display: flex;
+  font: 700 clamp(3rem, 9vw, 5.5rem) / 1 'Space Grotesk', sans-serif;
+  letter-spacing: -0.08em;
+  animation: intro-mark 0.72s var(--ease-out) both;
+}
+
+.intro-loader__mark span:first-child {
+  color: var(--text-1);
+}
+
+.intro-loader__mark span:last-child {
+  color: var(--accent);
+}
+
+.intro-loader__rail {
+  width: 120px;
+  height: 1px;
+  margin-top: 24px;
+  overflow: hidden;
+  background: var(--border-2);
+}
+
+.intro-loader__rail span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--accent-2), #a78bfa);
+  animation: intro-rail 1.08s var(--ease-out) both;
+}
+
+.intro-loader button {
+  margin-top: 24px;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  font: 500 10px/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@keyframes intro-mark {
+  from {
+    transform: translateY(18px) scale(0.94);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes intro-rail {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes intro-exit {
+  0%,
+  78% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* ─── Section label ──────────────────────────────── */
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--text-3);
+}
+
+/* ─── Reduced motion ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal,
+  .stagger > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-line > span {
+    transform: none;
+    animation: none;
+  }
+  .hero-shimmer::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .intro-loader {
+    display: none !important;
+  }
+
+  .word-reveal-token {
+    transform: none;
+  }
+}
+
+/* ─── Custom cursor ──────────────────────────────── */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  /* difference blend keeps the dot legible over any ground and it
+     never obscures text — it inverts whatever sits beneath it */
+  mix-blend-mode: difference;
+  transition: transform var(--dur-micro) var(--ease-out);
+  will-change: left, top;
+}
+
+/* On interactive targets the dot shrinks so it can't cover a glyph */
+.cursor-dot.is-hovering,
+.cursor-dot.is-project {
+  transform: translate(-50%, -50%) scale(0.35);
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(124, 58, 237, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition:
+    width var(--dur-micro) var(--ease-out),
+    height var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro),
+    background var(--dur-micro);
+  will-change: left, top;
+}
+
+.cursor-ring.is-hovering {
+  width: 54px;
+  height: 54px;
+  background: rgba(124, 58, 237, 0.08);
+  border-color: rgba(124, 58, 237, 0.75);
+}
+
+.cursor-ring.is-project {
+  width: 86px;
+  height: 86px;
+  background: rgba(124, 58, 237, 0.09);
+  border-color: rgba(167, 139, 250, 0.65);
+}
+
+.cursor-label {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #c4b5fd;
+  pointer-events: none;
+  z-index: 10001;
+  opacity: 0;
+  transition: opacity var(--dur-micro);
+}
+
+.cursor-label.visible {
+  opacity: 1;
+}
