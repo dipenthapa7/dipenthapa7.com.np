@@ -145,9 +145,9 @@ export default function Hero() {
               style={{ animation: 'fade-up 0.6s ease 0.45s both' }}
             >
               {[
-                'Python & Data Science Developer',
-                'Machine Learning',
-                'Web Development',
+                'Computer Science Student',
+                'AI & Machine Learning Enthusiast',
+                'Python & Data Science',
               ].map((tag, i) => (
                 <span key={tag}>
                   <span
@@ -165,7 +165,7 @@ export default function Hero() {
                       className="ml-2"
                       style={{ color: 'var(--text-3)', fontSize: 12 }}
                     >
-                      ·
+                      |
                     </span>
                   )}
                 </span>
